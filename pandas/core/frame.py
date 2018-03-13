@@ -2598,7 +2598,7 @@ class DataFrame(NDFrame):
         4 -0.9703   True  1.0
         5 -1.2094  False  2.0
         >>> df.select_dtypes(include='bool')
-           c
+           b
         0  True
         1  False
         2  True
