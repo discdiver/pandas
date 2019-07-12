@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
-from cython cimport Py_ssize_t
+from cython import Py_ssize_t
 
 from cpython cimport (
     PyDict_Contains, PyDict_GetItem, PyDict_SetItem)
 
 
-cdef class CachedProperty(object):
+cdef class CachedProperty:
 
     cdef readonly:
         object func, name, __doc__
@@ -31,22 +29,28 @@ cdef class CachedProperty(object):
 
         if PyDict_Contains(cache, self.name):
             # not necessary to Py_INCREF
-            val = <object> PyDict_GetItem(cache, self.name)
+            val = <object>PyDict_GetItem(cache, self.name)
         else:
             val = self.func(obj)
             PyDict_SetItem(cache, self.name, val)
         return val
 
+    def __set__(self, obj, value):
+        raise AttributeError("Can't set attribute")
+
 
 cache_readonly = CachedProperty
 
 
-cdef class AxisProperty(object):
-    cdef:
-        Py_ssize_t axis
+cdef class AxisProperty:
 
-    def __init__(self, axis=0):
+    cdef readonly:
+        Py_ssize_t axis
+        object __doc__
+
+    def __init__(self, axis=0, doc=""):
         self.axis = axis
+        self.__doc__ = doc
 
     def __get__(self, obj, type):
         cdef:
@@ -54,7 +58,7 @@ cdef class AxisProperty(object):
 
         if obj is None:
             # Only instances have _data, not classes
-            return None
+            return self
         else:
             axes = obj._data.axes
         return axes[self.axis]
