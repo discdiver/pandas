@@ -3031,9 +3031,10 @@ class Series(base.IndexOpsMixin, generic.NDFrame):
             If True, sort values in ascending order, otherwise descending.
         inplace : bool, default False
             If True, perform operation in-place.
-        kind : {'quicksort', 'mergesort' or 'heapsort'}, default 'quicksort'
-            Choice of sorting algorithm. See also :func:`numpy.sort` for more
-            information. 'mergesort' is the only stable  algorithm.
+        kind : {'quicksort', 'mergesort', 'heapsort', or 'stable'}, default 'quicksort'
+            Choice of sorting algorithm. 
+            Kind doesn't correspond to the sorting algorithm used in all cases. 
+            See also :func:`numpy.sort` for more information. 
         na_position : {'first' or 'last'}, default 'last'
             Argument 'first' puts NaNs at the beginning, 'last' puts NaNs at
             the end.
